@@ -1,5 +1,5 @@
 default:
-  golem_name: decd-assistance
+  golem_name: DECDviz
   golem_version: 0.0.0.9000
   app_prod: no
 production:
