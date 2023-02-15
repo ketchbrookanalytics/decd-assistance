@@ -16,7 +16,9 @@ app_ui <- function(request) {
         shiny::column(
           width = 3,
 
-          mod_filters_ui("filters_1")
+          shiny::wellPanel(
+            mod_filters_ui("filters_1")
+          )
 
         ),
 

@@ -27,10 +27,6 @@ mod_table_server <- function(id, data){
 
     tbl_data <- shiny::reactive({
 
-      shiny::validate(
-        shiny::need(nrow(data()) >= 1L, "No data to display")
-      )
-
       data() |>
         dplyr::select(
           -c(latitude, longitude)
@@ -38,12 +34,12 @@ mod_table_server <- function(id, data){
 
     })
 
-    output$table <- reactable::renderReactable(
+    output$table <- reactable::renderReactable({
 
       tbl_data() |>
         reactable::reactable()
 
-    )
+    })
 
   })
 }
