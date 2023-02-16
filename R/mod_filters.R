@@ -101,6 +101,10 @@ mod_filters_server <- function(id, data){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    # reactive value for current data
+    # default is entire data set
+    current_data <- reactiveVal(data)
+
     shiny::observe({
       whereami::cat_where(whereami::whereami())
       # min_year <- min(data$fiscal_year)
@@ -143,20 +147,20 @@ mod_filters_server <- function(id, data){
 
     })
 
-    filtered_data <- shiny::reactive({
+    # when user applies filter, update the reactive value for data accordingly
+    observeEvent(input$apply, {
       whereami::cat_where(whereami::whereami())
-      data |>
+      df <- data |>
         dplyr::filter(
           # fiscal_year %in% input$filter_year,
           city %in% input$filter_city#,
           # funding_source %in% input$filter_funding_source,
           # industry %in% input$filter_industry
         )
+      current_data(df)
+    })
 
-    }) |>
-      shiny::bindEvent(input$apply, ignoreNULL = FALSE)
-
-    return(filtered_data)
+    return(current_data)
 
   })
 }
