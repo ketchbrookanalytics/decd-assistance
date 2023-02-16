@@ -102,7 +102,7 @@ mod_filters_server <- function(id, data){
     ns <- session$ns
 
     shiny::observe({
-
+      whereami::cat_where(whereami::whereami())
       # min_year <- min(data$fiscal_year)
       # max_year <- max(data$fiscal_year)
       #
@@ -144,7 +144,7 @@ mod_filters_server <- function(id, data){
     })
 
     filtered_data <- shiny::reactive({
-
+      whereami::cat_where(whereami::whereami())
       data |>
         dplyr::filter(
           # fiscal_year %in% input$filter_year,
