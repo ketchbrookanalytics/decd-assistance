@@ -26,7 +26,7 @@ mod_table_server <- function(id, data){
     ns <- session$ns
 
     tbl_data <- shiny::reactive({
-
+      req(data())
       data() |>
         dplyr::select(
           -c(latitude, longitude)

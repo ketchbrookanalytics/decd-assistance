@@ -13,3 +13,5 @@ LazyData: true
 RoxygenNote: 7.2.3
 URL: https://github.com/ketchbrookanalytics/decd-assistance
 BugReports: https://github.com/ketchbrookanalytics/decd-assistance/issues
+Suggests: 
+    whereami
