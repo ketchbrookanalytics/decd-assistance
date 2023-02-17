@@ -28,8 +28,8 @@ app_ui <- function(request) {
           shiny::column(
             width = 12,
 
-            shiny::p("To updated the data displayed in the table & map, select choices in the filters below, then click the \"Apply\" button"),
-            shiny::p("To revert the filters and display all data, click the \"Reset\" button"),
+            shiny::p("To updated the data displayed in the table & map, select choices in the filters below, then click the \"Apply\" button."),
+            shiny::p("To revert the filters and display all data, click the \"Reset\" button."),
 
             shiny::wellPanel(
               mod_filters_ui("filters_1")
@@ -87,7 +87,7 @@ app_ui <- function(request) {
               shiny::br(),
 
               shiny::p(
-                "This app displays direct financial assistance given to businesses by the Department of Economic and Community Development in the State of Connecticut"
+                "This app displays direct financial assistance given to businesses by the Department of Economic and Community Development in the State of Connecticut."
               ),
 
               shiny::span(
@@ -96,9 +96,11 @@ app_ui <- function(request) {
                   "https://data.ct.gov/Business/Department-of-Economic-and-Community-Development-D/xnw3-nytd",
                   href = "https://data.ct.gov/Business/Department-of-Economic-and-Community-Development-D/xnw3-nytd",
                   target = "_blank"
-                )
+                ),
+                "."
               ),
 
+              shiny::br(),
               shiny::br(),
               shiny::br(),
 

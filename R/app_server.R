@@ -9,6 +9,7 @@ app_server <- function(input, output, session) {
 
   # Build the query
   base_url <- "https://data.ct.gov/resource/xnw3-nytd.json?"
+
   columns <- c(
     "fiscal_year",
     "company_name",

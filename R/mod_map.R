@@ -45,6 +45,12 @@ mod_map_server <- function(id, data){
         domain = log(data()$total_project_cost)
       )
 
+      shiny::validate(
+        shiny::need(
+          nrow(data()) >= 1L, "No data to display"
+        )
+      )
+
       data() |>
         dplyr::select(
           company_name,
