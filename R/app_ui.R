@@ -26,12 +26,38 @@ app_ui <- function(request) {
 
       shiny::hr(),
 
-      shiny::fluidRow(
-        shiny::column(
-          width = 12,
-          mod_table_ui("table_1")
+      shiny::tabsetPanel(
+        id = "tabset1",
+        type = "pills",
+
+        shiny::tabPanel(
+          title = "Table",
+          value = "table_tab", icon = shiny::icon("table"),
+          shiny::br(),
+          shiny::fluidRow(
+            shiny::column(
+              width = 12,
+              mod_table_ui("table_1")
+            )
+          )
+        ),
+
+        shiny::tabPanel(
+          title = "Map",
+          value = "map_tab",
+          icon = shiny::icon("globe"),
+          shiny::br(),
+          shiny::fluidRow(
+            shiny::column(
+              width = 12,
+              mod_map_ui("map_1")
+            )
+          )
         )
+
       )
+
+
 
     )
   )

@@ -19,4 +19,9 @@ app_server <- function(input, output, session) {
     data = data_filtered
   )
 
+  mod_map_server(
+    id = "map_1",
+    data = data_filtered
+  )
+
 }
