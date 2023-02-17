@@ -10,23 +10,26 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      h1("decd-assistance"),
+
+      shiny::h1("DECD Assistance Analyzer"),
+      shiny::br(),
+      shiny::p("To updated the data displayed, select choices in the filters below, then click the \"Apply\" button"),
 
       shiny::fluidRow(
         shiny::column(
-          width = 3,
-
+          width = 12,
           shiny::wellPanel(
             mod_filters_ui("filters_1")
           )
+        )
+      ),
 
-        ),
+      shiny::hr(),
 
+      shiny::fluidRow(
         shiny::column(
-          width = 9,
-
+          width = 12,
           mod_table_ui("table_1")
-
         )
       )
 
