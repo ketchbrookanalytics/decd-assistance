@@ -12,7 +12,8 @@ mod_table_ui <- function(id){
   tagList(
 
     reactable::reactableOutput(
-      outputId = ns("table")
+      outputId = ns("table"),
+      height = 600
     )
 
   )
@@ -26,7 +27,9 @@ mod_table_server <- function(id, data){
     ns <- session$ns
 
     tbl_data <- shiny::reactive({
+
       req(data())
+
       data() |>
         dplyr::select(
           -c(latitude, longitude)
@@ -45,12 +48,27 @@ mod_table_server <- function(id, data){
       tbl_data() |>
         reactable::reactable(
           columns = list(
-            fiscal_year = reactable::colDef(name = "Year"),
-            company_name = reactable::colDef(name = "Company"),
+            fiscal_year = reactable::colDef(
+              name = "Year",
+              filterable = TRUE
+            ),
+            company_name = reactable::colDef(
+              name = "Company",
+              filterable = TRUE
+            ),
             address = reactable::colDef(show = FALSE),
-            city = reactable::colDef(name = "City"),
-            industry = reactable::colDef(name = "Industry"),
-            job_obligation_status = reactable::colDef(name = "Job Obligation Status"),
+            city = reactable::colDef(
+              name = "City",
+              filterable = TRUE
+            ),
+            industry = reactable::colDef(
+              name = "Industry",
+              filterable = TRUE
+            ),
+            job_obligation_status = reactable::colDef(
+              name = "Job Obligation Status",
+              filterable = TRUE
+            ),
             grant_amount = reactable::colDef(
               name = "Grant Amount",
               cell = format_currency
@@ -71,7 +89,10 @@ mod_table_server <- function(id, data){
               name = "Amount Leveraged",
               cell = format_currency
             ),
-            funding_source = reactable::colDef(name = "Funding Source")
+            funding_source = reactable::colDef(
+              name = "Funding Source",
+              filterable = TRUE
+            )
           )
         )
 
