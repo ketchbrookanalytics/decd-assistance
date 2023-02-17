@@ -34,6 +34,12 @@ mod_table_server <- function(id, data){
 
     })
 
+    format_currency <- reactable::JS("
+      function(cellInfo) {
+        return '$' + (cellInfo.value).toLocaleString()
+      }
+    ")
+
     output$table <- reactable::renderReactable({
 
       tbl_data() |>
@@ -47,23 +53,23 @@ mod_table_server <- function(id, data){
             job_obligation_status = reactable::colDef(name = "Job Obligation Status"),
             grant_amount = reactable::colDef(
               name = "Grant Amount",
-              format = reactable::colFormat(currency = "USD", digits = 0, separators = TRUE)
+              cell = format_currency
             ),
             loan_amount = reactable::colDef(
               name = "Loan Amount",
-              format = reactable::colFormat(currency = "USD", digits = 0, separators = TRUE)
+              cell = format_currency
             ),
             total_assistance = reactable::colDef(
               name = "Total Assistance",
-              format = reactable::colFormat(currency = "USD", digits = 0, separators = TRUE)
+              cell = format_currency
             ),
             total_project_cost = reactable::colDef(
               name = "Total Project Cost",
-              format = reactable::colFormat(currency = "USD", digits = 0, separators = TRUE)
+              cell = format_currency
             ),
             amount_leveraged = reactable::colDef(
               name = "Amount Leveraged",
-              format = reactable::colFormat(currency = "USD", digits = 0, separators = TRUE)
+              cell = format_currency
             ),
             funding_source = reactable::colDef(name = "Funding Source")
           )
