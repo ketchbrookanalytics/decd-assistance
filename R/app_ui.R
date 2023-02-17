@@ -9,55 +9,125 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-
-      shiny::h1("DECD Assistance Analyzer"),
-      shiny::br(),
-      shiny::p("To updated the data displayed, select choices in the filters below, then click the \"Apply\" button"),
-
-      shiny::fluidRow(
-        shiny::column(
-          width = 12,
-          shiny::wellPanel(
-            mod_filters_ui("filters_1")
-          )
-        )
+    bslib::page_navbar(
+      id = "nav_bar",
+      title = "DECD Assistance Analyzer",
+      bg = "#1C81D7",
+      theme = bslib::bs_theme(
+        bootswatch = "united",
+        bg = "#FFFFFF",
+        fg = "#000000",
+        primary = "#1C81D7",   # Ketchbrook blue
+        base_font = bslib::font_google("Arimo")
       ),
 
-      shiny::hr(),
+      bslib::nav(
+        title = "Home",
 
-      shiny::tabsetPanel(
-        id = "tabset1",
-        type = "pills",
+        shiny::fluidRow(
+          shiny::column(
+            width = 12,
 
-        shiny::tabPanel(
-          title = "Table",
-          value = "table_tab", icon = shiny::icon("table"),
-          shiny::br(),
-          shiny::fluidRow(
-            shiny::column(
-              width = 12,
-              mod_table_ui("table_1")
+            shiny::p("To updated the data displayed in the table & map, select choices in the filters below, then click the \"Apply\" button"),
+            shiny::p("To revert the filters and display all data, click the \"Reset\" button"),
+
+            shiny::wellPanel(
+              mod_filters_ui("filters_1")
             )
           )
         ),
 
-        shiny::tabPanel(
-          title = "Map",
-          value = "map_tab",
-          icon = shiny::icon("globe"),
-          shiny::br(),
-          shiny::fluidRow(
-            shiny::column(
-              width = 12,
-              mod_map_ui("map_1")
+        shiny::hr(),
+
+        shiny::tabsetPanel(
+          id = "tabset1",
+          type = "pills",
+
+          shiny::tabPanel(
+            title = "Table",
+            value = "table_tab", icon = shiny::icon("table"),
+            shiny::br(),
+            shiny::fluidRow(
+              shiny::column(
+                width = 12,
+                mod_table_ui("table_1")
+              )
+            )
+          ),
+
+          shiny::tabPanel(
+            title = "Map",
+            value = "map_tab",
+            icon = shiny::icon("globe"),
+            shiny::br(),
+            shiny::fluidRow(
+              shiny::column(
+                width = 12,
+                mod_map_ui("map_1")
+              )
             )
           )
+
         )
 
+      ),
+
+      bslib::nav(
+        title = "About",
+
+        shiny::fluidRow(
+
+          shiny::column(
+            width = 12,
+
+            shiny::div(
+              class = "mt-4 p-5 bg-dark text-white rounded",
+              shiny::h1("Enjoying This App?"),
+
+              shiny::br(),
+
+              shiny::p(
+                "This app displays direct financial assistance given to businesses by the Department of Economic and Community Development in the State of Connecticut"
+              ),
+
+              shiny::span(
+                "The source data can be found at:",
+                shiny::a(
+                  "https://data.ct.gov/Business/Department-of-Economic-and-Community-Development-D/xnw3-nytd",
+                  href = "https://data.ct.gov/Business/Department-of-Economic-and-Community-Development-D/xnw3-nytd",
+                  target = "_blank"
+                )
+              ),
+
+              shiny::br(),
+              shiny::br(),
+
+              shiny::p(
+                class = "lead",
+                "Check out what else Ketchbrook Analytics can do for you."
+              ),
+              shiny::a(
+                class = "btn btn-warning btn-lg",
+                href = "https://www.ketchbrookanalytics.com/",
+                target = "_blank",
+                "Visit Us"
+              )
+            )
+          )
+
+        )
+
+      ),
+
+      bslib::nav_spacer(),
+
+      bslib::nav_item(
+        shiny::a(
+          shiny::icon("paper-plane"),
+          "Contact",
+          href = "mailto:info@ketchbrookanalytics.com?subject=DECD Assistance Analyzer"
+        )
       )
-
-
 
     )
   )
@@ -81,7 +151,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "decd-assistance"
+      app_title = "DECD Assistance Analyzer"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
