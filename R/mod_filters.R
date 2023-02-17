@@ -19,33 +19,13 @@ mod_filters_ui <- function(id){
         # Year range filter
         shinyWidgets::pickerInput(
           inputId = ns("filter_year"),
-          label = "Select Fiscal Year",
+          label = "Select Year",
           choices = NULL,
           selected = NULL,
           multiple = TRUE,
           options = list(
             `actions-box` = TRUE,
             `selected-text-format` = 'count > 2',
-            `select-all-text` = "All"
-          ),
-          width = NULL
-        )
-
-      ),
-
-      shiny::column(
-        width = 3,
-
-        # City drop-down filter
-        shinyWidgets::pickerInput(
-          inputId = ns("filter_city"),
-          label = "Select City",
-          choices = NULL,
-          selected = NULL,
-          multiple = TRUE,
-          options = list(
-            `actions-box` = TRUE,
-            `selected-text-format` = 'count > 1',
             `select-all-text` = "All"
           ),
           width = NULL
@@ -68,6 +48,26 @@ mod_filters_ui <- function(id){
             selectedTextFormat = "count > 1",
             selectAllText = "All",
             virtualScroll = 200L
+          ),
+          width = NULL
+        )
+
+      ),
+
+      shiny::column(
+        width = 3,
+
+        # City drop-down filter
+        shinyWidgets::pickerInput(
+          inputId = ns("filter_city"),
+          label = "Select City",
+          choices = NULL,
+          selected = NULL,
+          multiple = TRUE,
+          options = list(
+            `actions-box` = TRUE,
+            `selected-text-format` = 'count > 1',
+            `select-all-text` = "All"
           ),
           width = NULL
         )
@@ -134,21 +134,17 @@ mod_filters_server <- function(id, data){
     # Default is entire data set
     current_data <- reactiveVal(data)
 
+    # Capture unique values from data for filter choices
+    min_year <- min(data$fiscal_year)
+    max_year <- max(data$fiscal_year)
+    years <- unique(data$fiscal_year) |> sort()
+    cities <- unique(data$city) |> sort()
+    industries <- unique(data$industry) |> sort()
+
+    # Populate Filters ----
     shiny::observe({
 
-      min_year <- min(data$fiscal_year)
-      max_year <- max(data$fiscal_year)
-
-      shiny::updateSliderInput(
-        session = session,
-        inputId = "filter_year",
-        value = c(min_year, max_year),
-        min = min_year,
-        max = max_year
-      )
-
-      years <- unique(data$fiscal_year) |> sort()
-
+      # Populate "Year" filter
       shinyWidgets::updatePickerInput(
         session = session,
         inputId = "filter_year",
@@ -156,17 +152,7 @@ mod_filters_server <- function(id, data){
         selected = years
       )
 
-      cities <- unique(data$city) |> sort()
-
-      shinyWidgets::updatePickerInput(
-        session = session,
-        inputId = "filter_city",
-        choices = cities,
-        selected = cities
-      )
-
-      industries <- unique(data$industry) |> sort()
-
+      # Populate "Industry" filter
       shinyWidgets::updatePickerInput(
         session = session,
         inputId = "filter_industry",
@@ -174,9 +160,58 @@ mod_filters_server <- function(id, data){
         selected = industries
       )
 
+      # Populate "City" filter
+      shinyWidgets::updatePickerInput(
+        session = session,
+        inputId = "filter_city",
+        choices = cities,
+        selected = cities
+      )
+
     })
 
-    # when user applies filter, update the reactive value for data accordingly
+    # Reset Filters ----
+    # When the "Reset" button is clicked, update the selected items in the
+    # filters and set the reactive value object to all of the data
+    observe({
+
+      # Reset the "Year" filter
+      shinyWidgets::updatePickerInput(
+        session = session,
+        inputId = "filter_year",
+        selected = years
+      )
+
+      # Reset the "Industry" filter
+      shinyWidgets::updatePickerInput(
+        session = session,
+        inputId = "filter_industry",
+        selected = industries
+      )
+
+      # Reset the "City" filter
+      shinyWidgets::updatePickerInput(
+        session = session,
+        inputId = "filter_city",
+        selected = cities
+      )
+
+      # Reset the "Funding Source" filter
+      shinyWidgets::updatePickerInput(
+        session = session,
+        inputId = "filter_funding_source",
+        selected = c("Manufacturing Assistance Act", "Small Business Express Program")
+      )
+
+      # Reset the reactive values object to the input dataset (all of the data)
+      current_data(data)
+
+    }) |>
+      shiny::bindEvent(input$reset, ignoreInit = TRUE)
+
+    # Apply Filters ----
+    # When the "Apply" button is clicked, filter the data and update the
+    # reactive value object
     observe({
 
       df <- data |>
