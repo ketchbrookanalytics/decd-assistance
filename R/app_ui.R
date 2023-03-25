@@ -28,7 +28,7 @@ app_ui <- function(request) {
           shiny::column(
             width = 12,
 
-            shiny::p("To updated the data displayed in the table & map, select choices in the filters below, then click the \"Apply\" button."),
+            shiny::p("To update the data displayed in the table & map, select choices in the filters below, then click the \"Apply\" button."),
             shiny::p("To revert the filters and display all data, click the \"Reset\" button."),
 
             shiny::wellPanel(
@@ -125,9 +125,21 @@ app_ui <- function(request) {
 
       bslib::nav_item(
         shiny::a(
+          shiny::icon("github"),
+          "Code",
+          href = "https://github.com/ketchbrookanalytics/decd-assistance",
+          target = "_blank"
+        )
+      ),
+
+      # bslib::nav_spacer(),
+
+      bslib::nav_item(
+        shiny::a(
           shiny::icon("paper-plane"),
           "Contact",
-          href = "mailto:info@ketchbrookanalytics.com?subject=DECD Assistance Analyzer"
+          href = "mailto:info@ketchbrookanalytics.com?subject=DECD Assistance Analyzer",
+          target = "_blank"
         )
       )
 
